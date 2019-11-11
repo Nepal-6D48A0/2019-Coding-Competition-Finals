@@ -96,9 +96,23 @@
                 "</table>";
         }
 
-        $.get('http://localhost:8080/renters/summary', function (data) {
-            generateMap(data);
+        $.ajax({
+            url: 'http://localhost:8080/renters/summary',
+            type: 'GET',
+            crossDomain: true,
+            beforeSend: function(){
+                console.log('Sending Request')
+            },
+            success: function (data) {
+                console.log('here');
+                console.log(data);
+             },
+            failure: function (data) {
+                console.log('error');
+                alert(data);
+             }
         });
+
 
         function generateMap(data) {
             mapSummary = {};

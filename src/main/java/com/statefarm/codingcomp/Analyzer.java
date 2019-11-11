@@ -9,9 +9,6 @@ import com.statefarm.codingcomp.reader.Reader;
 public class Analyzer {
 
 	public static void main(String[] args) throws Exception {
-		List<Policy> policies = new Reader().read();
-		for(Policy policy: policies){
-			System.out.println(policy);
-		}
+		(new GUI()).setVisible(true);
 	}
 }
