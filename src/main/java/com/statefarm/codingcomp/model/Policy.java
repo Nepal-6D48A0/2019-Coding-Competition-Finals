@@ -33,4 +33,17 @@ public class Policy {
 	public int getNumberOfAccidents() {
 		return Integer.parseInt(policy[40]);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder retVal = new StringBuilder();
+		retVal.append(String.format("Policy Type: %s\n", getPolicyType()));
+		retVal.append(String.format("Policy Status: %s\n", getPolicyStatus()));
+		retVal.append(String.format("State: %s\n", getState()));
+		retVal.append(String.format("Annual Premium: %s\n", getAnnualPremium()));
+		retVal.append(String.format("Age: %s\n", getAge()));
+		retVal.append(String.format("Number of Accidents: %s\n\n", getNumberOfAccidents()));
+
+		return retVal.toString();
+	}
 }
