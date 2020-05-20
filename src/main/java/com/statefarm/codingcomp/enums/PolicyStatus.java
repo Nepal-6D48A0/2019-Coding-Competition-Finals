@@ -12,4 +12,13 @@ public enum PolicyStatus {
 			return CANCELLED_BY_COMPANY;
 		}
 	}
+
+	public static Boolean isValidPolicyStatus(String policyStatus) {
+		try {
+			PolicyStatus.valueOf(policyStatus);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
 }

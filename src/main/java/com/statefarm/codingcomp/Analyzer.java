@@ -1,14 +1,13 @@
 package com.statefarm.codingcomp;
 
-import java.util.List;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.statefarm.codingcomp.model.Policy;
-import com.statefarm.codingcomp.reader.Reader;
-
-
+@SpringBootApplication
 public class Analyzer {
 
-	public static void main(String[] args) throws Exception {
-		(new GUI()).setVisible(true);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Analyzer.class, args);
+    }
+
 }

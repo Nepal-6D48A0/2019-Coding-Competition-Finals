@@ -1,8 +1,22 @@
 Team Name(s):  Ishan Baniya
 
 Document and describe any enhancements included to help the judges properly grade your submission.
-	Step 1:  RESTful API to get Data
-	Step 2: Simple GUI for summary
-	
+	Step 1:
+	    Created a RESTful Web Service using Spring Boot.
+	    It has several useful endpoints (com.statefarm.codingcomp.PolicyController) which sends relevant information about the policies
+	    This allows other developers to access the data as well and use it as required.
+
+	Step 2:
+	    Created a Single Page Application to visualize the data.
+	    It uses the endpoints described above to retrieve and render relevant data.
+	    D3.js is used to render map and Chart.js is used to all graphs.
+	    Other libraries used in the webpage are jQuery and Bootstrap.
+
+    Running the application:
+        - Run the command `./mvnw spring-boot:run` on the root directory
+          or run the main method in com.statefarm.codingcomp.Analyzer to start the server
+
+        - Visit http://localhost:8080/ to view the application
+          The server port is 8080 by default. If you need to change the port, update application.properties under resources
 	
 Feedback for the coding competition?  Things you would like to see in future events?

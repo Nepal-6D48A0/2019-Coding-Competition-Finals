@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>StateFarm Coding Comp Final 2019</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+
+<header class="container">
+    <div class="text-center">
+        <h1 class="display-3">Insurance Insight</h1>
+        <p class="lead">Smart Visualization of Insurance Policies</p>
+        <hr>
+    </div>
+</header>
+
+<div class="row sticky-top pt-3 bg-white" id="state-select-container">
+    <div class="col-md-3 col-10 mx-auto">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="state-select">State</label>
+            </div>
+            <select class="custom-select" id="state-select">
+                <option value="All" selected>ALL</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="map-container">
+        <div id="tooltip"></div>
+        <!--        <svg width="960" height="600" id="statesvg"></svg>-->
+        <svg width="100%" height="600" id="statesvg"></svg>
+    </div>
+
+    <hr>
+
+    <div id="summary">
+        <div class="text-center my-4">
+            <h2 class="display-4" id="summary-title">Select a state to begin</h2>
+        </div>
+
+        <div class="col-sm-6 col-md-6 mx-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="state-select">Policy Type</label>
+                </div>
+                <select class="custom-select" id="policy-type-select">
+                </select>
+            </div>
+        </div>
+
+        <div class="row justify-content-around" id="summary-details">
+            <div class="col-md-5 card m-3 shadow">
+                <div class="card-body">
+                    <h4 class="text-center card-title" id="policy-type">Policy Type</h4>
+                    <hr>
+                    <div class="card-text lead row text-left">
+                        <div class="col-6 font-weight-normal">Total Policyholders</div>
+                        <div class="col-6" id="total-policyholders">-</div>
+                        <div class="col-6 font-weight-normal">Average Age</div>
+                        <div class="col-6" id="average-age">-</div>
+                        <div class="col-6 font-weight-normal">Average Premium</div>
+                        <div class="col-6" id="average-premium"> $ 0.00</div>
+                        <div class="col-6 font-weight-normal">Average incidents</div>
+                        <div class="col-6" id="average-incidents">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div id="charts" class="row my-3">
+
+        <div class="col-md-6 mb-5">
+            <h3 class="lead text-center">Age Distribution</h3>
+            <canvas id="ageDistributionChart"></canvas>
+        </div>
+
+        <div class="col-md-6 mb-5">
+            <h3 class="lead text-center">Policy Status</h3>
+            <canvas id="policy-status-chart"></canvas>
+        </div>
+
+        <div class="col-12 mt-2 mb-5">
+            <h3 class="lead text-center">Average Premium vs Average Incidents</h3>
+            <canvas id="premium-chart"></canvas>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <footer>
+        <p class="text-center font-weight-light">
+            This visualization is created as a part of submission for StateFarm Coding Competition Finals 2019
+            by <a href="https://ishanbaniya.com" target="_blank">Ishan Baniya</a> <br>
+            Visit <a href="https://github.com/Nepal-6D48A0/2019-Coding-Competition-Finals" target="_blank">Github</a> to view the complete source code.
+        </p>
+
+    </footer>
+
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="./js/US_States.js"></script>
+<script src="./js/domManipulator.js"></script>
+<script src="./js/graph.js"></script>
+<script src="js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        populateStates();
+        populatePolicyTypes();
+        initializeAgeDistributionGraph();
+        initializeStatusGraph();
+        initializePremiumGraph();
+
+        $(window).scroll(function () {
+            let currentPosition = $(window).scrollTop();
+            let $stateSelection = $('#state-select-container');
+
+            if (currentPosition >= $('#map-container').position().top - $stateSelection.height()) {
+                $stateSelection.addClass("shadow");
+            } else {
+                $stateSelection.removeClass("shadow");
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
